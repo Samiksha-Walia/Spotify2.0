@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { AiOutlineHeart, AiOutlinePlaySquare } from "react-icons/ai";
 import { IoMdSkipBackward, IoMdSkipForward } from "react-icons/io";
@@ -8,10 +8,11 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { PiMicrophoneStageDuotone, PiQueueLight } from "react-icons/pi";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import { BsArrowsAngleContract, BsSpeakerFill } from "react-icons/bs";
-import { pauseMaster, playMaster } from "../../states/Actors/SongActor";
+import { pauseMaster, playMaster,playSong, } from "../../states/Actors/SongActor";
 import { useGlobalContext } from "../../states/Context";
 import "./SongBar.css";
-import { songs } from "../Home/Home";
+import { songs } from "../../data/songs";
+
 
 const SongBar = () => {
     const { masterSong, isPlaying } = useSelector((state) => state.mainSong);
@@ -35,30 +36,37 @@ const SongBar = () => {
         }
     };
     useEffect(() => {
-        if (masterSong.mp3) {
-            setDuration(formatTime(masterSong?.mp3?.duration));
-            if (isPlaying) {
-                masterSong.mp3.play();
-                masterSong?.mp3?.play();
-            } else {
-                masterSong?.mp3?.pause();
-            }
-        }
+        if (!masterSong.mp3) return;
+
+        masterSong.mp3.volume = volume / 100;
+        setDuration(formatTime(masterSong?.mp3?.duration));
+
         if (isPlaying) {
-            setInterval(() => {
-                if (progress === 100) {
+            masterSong.mp3.play();
+        } else {
+            masterSong.mp3.pause();
+        }
+
+        const interval = setInterval(() => {
+            if (masterSong?.mp3?.currentTime && isPlaying) {
+                const current = masterSong.mp3.currentTime;
+                const total = masterSong.mp3.duration;
+
+                setProgress((current / total) * 100);
+                setCurrTime(formatTime(current));
+
+                if (current >= total) {
                     dispatch(pauseMaster());
                     resetEverything();
-                } else {
-                    setProgress(
-                        (masterSong.mp3.currentTime / masterSong.mp3.duration) * 100
-                            
-                    );
-                    setCurrTime(formatTime(masterSong.mp3.currentTime));
                 }
-            }, 1000);
-        }
+            }
+        }, 500); // update twice per second for smoother progress
+
+        return () => {
+            clearInterval(interval); // cleanup on unmount or dependency change
+        };
     }, [masterSong, isPlaying]);
+
 
     const changeProgress = (e) => {
         setProgress(e.target.value);
@@ -109,10 +117,15 @@ const SongBar = () => {
             masterSong?.mp3?.pause();
             masterSong.mp3.currentTime = 0;
         }
-        resetEverything();
-        console.log("forward");
-        setSongIdx((prevstate) => prevstate + 1);
-        dispatch(playSong(songs[songIdx+1]));
+
+        const nextIndex = songIdx + 1;
+
+        if (nextIndex < songs.length) {
+            resetEverything(); // you can keep this if it doesn't modify songIdx
+            setSongIdx(nextIndex);
+            dispatch(playSong(songs[nextIndex]));
+            dispatch(playMaster()); // ensure it starts playing
+        }
     };
 
 
@@ -168,8 +181,10 @@ const SongBar = () => {
                             
                         />{/*"w-full block"*/}
                         <div
-                            className={`active_progress w-[${progress}%]`}
+                            className="active_progress"
+                            style={{ width: `${progress}%` }}
                         ></div>
+
                     </div>
                     <span className="text-xs w-12">{duration}</span>
                 </div>
