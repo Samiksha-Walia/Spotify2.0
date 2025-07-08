@@ -11,7 +11,7 @@ export const AppProvider = ({ children }) => {
         setProgress(0);
         setCurrTime("00:00");
         setDuration("00:00");
-        setSongIdx((prevstate) => prevstate + 1);
+        //setSongIdx((prevstate) => prevstate + 1);
     };
     return (
         <AppContext.Provider

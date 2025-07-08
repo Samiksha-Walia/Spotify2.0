@@ -24,7 +24,7 @@ export const songs = [
         id: Math.random() * Date.now(),
         title: "Heeriye",
         artist: "Arijit Singh",
-        mp3: new Audio("src/assets/mp3/Heeriye.m4a"),
+        mp3: new Audio("src/assets/mp3/Heeriye.mp3"),
         img: "src/assets/Arijit.jpeg",
     },
     {

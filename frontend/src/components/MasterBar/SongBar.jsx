@@ -104,14 +104,24 @@ const SongBar = () => {
     };
     const backwardSong = () => {
         console.log("backward");
-        if (masterSong.mp3) {
-            masterSong?.mp3?.pause();
-            masterSong.mp3.currentTime = 0;
+
+        if (songIdx > 0) {
+            const newIdx = songIdx - 1;
+
+            if (masterSong.mp3) {
+                masterSong.mp3.pause();
+                masterSong.mp3.currentTime = 0;
+            }
+
+            resetEverything();
+            setSongIdx(newIdx);
+            dispatch(playSong(songs[newIdx]));
+            dispatch(playMaster());
+        } else {
+            console.log("Already at first song.");
         }
-        resetEverything();
-        setSongIdx((prevstate) => prevstate - 1);
-        dispatch(playSong(songs[songIdx-1]));
     };
+
     const forwardSong = () => {
         if (masterSong.mp3) {
             masterSong?.mp3?.pause();
@@ -150,7 +160,7 @@ const SongBar = () => {
             <div className="flex-[5] flex flex-col items-center">
                 <div className="flex justify-center items-center mb-2 gap-6 text-xl">
                     <BiShuffle />
-                    <IoMdSkipBackward />
+                    <IoMdSkipBackward onClick={backwardSong} />
                         <button
                             onClick={handleMaster}
                             className="flex items-center rounded-full bg-white justify-center p-2"
