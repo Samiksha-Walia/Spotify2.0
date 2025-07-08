@@ -1,35 +1,43 @@
 import Layout from "../../Layout/Layout";
-import { FaGreaterThan, FaLessThan } from "react-icons/fa";
+import { FaGreaterThan, FaLessThan, FaUser  } from "react-icons/fa";
 import Card from "../Card/Card";
 import { Link } from "react-router-dom";
 import SongBar from "../MasterBar/SongBar";
 import { songs } from "../../data/songs";
+import { useSelector } from "react-redux";
 
 
 
 
 const Home = () => {
+  const { user, isAuthenticated } = useSelector((state) => state.account);
     return (
         <Layout>
-            <div className="flex justify-between ml-4  py-4 rounded-[2px] mt-2 items-center ">
+            <div className="flex justify-between ml-4  py-4 rounded-[2px] mt-2 px-8 secondary_bg items-center border-b border-b-gray-50">
                 <div className="flex gap-2 items-center ">
                     <FaLessThan className="bg-white/10 text-3xl p-1  rounded-[50%] " />
                     <FaGreaterThan className="bg-white/10 text-3xl p-1  rounded-[50%] " />
                 </div>
                 <div>
-                    <Link 
-                        to={'/signup'} 
+                    {!isAuthenticated ? (
+                    <div>
+                        <Link
+                        to={"/signup"}
                         className="rounded-full  mt-4 px-8 text-base  py-2 text-white- font-semibold"
-                    >
+                        >
                         Sign Up
-                    </Link>
-
-                    <Link
-                         to={'/login'} 
+                        </Link>
+        
+                        <Link
+                        to={"/login"}
                         className="rounded-full text-black mt-4 px-8 text-base  py-3 bg-white font-semibold"
-                    >
+                        >
                         Log in
-                    </Link>
+                        </Link>
+                    </div>
+                    ) : (
+                    <FaUser />
+                    )}
                 </div>
             </div>
             <div className="tertiary-bg mx-4 px-4 py-4 ">

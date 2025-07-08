@@ -1,7 +1,53 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { userActor } from "../../states/Actors/UserActor";
 const Login = () => {
+  const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.account);
+    const [userDetails, setUserDetails] = useState({
+            email: "",
+            password: "",
+        });
+        const navigate = useNavigate();
+    
+        const loginUser = async (e) => {
+            e.preventDefault();
+            const { email, password } = userDetails;
+            let d = JSON.stringify({
+            email,
+            password,
+            });
+            console.log(d);
+            const res = await fetch("http://localhost:5000/api/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: d,
+            });
+    
+            const data = await res.json();
+            if (data.success) {
+                  console.log(data);
+                  toast.success(data.message);
+                  localStorage.setItem("token", JSON.stringify(data.token));
+                  dispatch(userActor(data.user));
+                  navigate("/");
+                } else {
+                  toast.error(data.message);
+                }
+        };
+        const onChange = (e) => {
+            setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+        };
+        useEffect(() => {
+            if (isAuthenticated) {
+              navigate("/");
+            }
+          }, []);
     return (
         <>
             <header className="px-12 py-8">
@@ -15,7 +61,7 @@ const Login = () => {
                         Log in to Spotify
                     </h1>
                     <div className="border-b border-gray-400 w-3/4 my-4 mx-auto"></div>
-                    <form className="text-center mx-auto w-1/2 ">
+                    <form onSubmit={loginUser} className="text-center mx-auto w-1/2 ">
                         <div className="w-full text-left py-4">
                             <label
                                 htmlFor="email"
@@ -27,6 +73,8 @@ const Login = () => {
                                 type="text"
                                 id="email"
                                 name="email"
+                                value={userDetails.email}
+                                onChange={onChange}
                                 placeholder="Email or username"
                                 className="block w-full rounded-[4px] border-0  text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-white bg-[#1a1919]"
                             />
@@ -39,9 +87,11 @@ const Login = () => {
                                 Password
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 id="password"
                                 name="password"
+                                value={userDetails.password}
+                                onChange={onChange}
                                 placeholder="Password"
                                 className="block w-full rounded-[4px] border-0  text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-white bg-[#1a1919]"
                             />
@@ -70,7 +120,12 @@ const Login = () => {
                         Don't have an account?{" "}
                         </span>
                       
-                        <Link to="/signup" className="text-white hover:text-green-500 font-semibold underline mx-auto">Sign up for Spotify</Link>
+                        <Link 
+                            to="/signup" 
+                            className="text-white hover:text-green-500 font-semibold underline mx-auto"
+                        >
+                            Sign up for Spotify
+                        </Link>
                     </p>
                 </div>
             </div>

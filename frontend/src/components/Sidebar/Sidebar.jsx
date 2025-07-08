@@ -70,7 +70,7 @@ const Sidebar = () => {
             <TbWorld/>
             <span className="text-white font-bold">English</span>
         </button>
-        <Signup />
+        {/* <Signup /> */}
     </div>
   );
 }

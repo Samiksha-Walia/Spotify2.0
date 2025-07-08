@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import store from "./states/store";
 import './index.css'; // Ensure you import your CSS file
 import { AppProvider } from './states/Context';
+// import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -19,6 +22,18 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
           </Routes>
         </Router>
+        <ToastContainer
+                  position="bottom-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="dark"
+                />
       </AppProvider>
     </Provider>
   );
