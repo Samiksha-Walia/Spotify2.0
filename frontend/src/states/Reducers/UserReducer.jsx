@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../Contants/UserConstant";
+import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_ABOUT, } from "../Contants/UserConstant";
 
 export const userReducer = (
   state = { user: {}, isAuthenticated: false },
@@ -9,6 +9,8 @@ export const userReducer = (
       return { ...state, user: action.payload, isAuthenticated: true };
     case USER_LOGGED_OUT:
       return { ...state, user: {}, isAuthenticate: false };
+    case USER_ABOUT:
+      return { ...state, user: action.payload, isAuthenticated: true };
     default:
       return state;
   }

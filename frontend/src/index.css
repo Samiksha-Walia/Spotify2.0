@@ -34,3 +34,38 @@ body {
 .tertiary-bg {
   background-color: var(--tertiary-bg);
 }
+
+/* Scrollbar Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff75;
+  width: 8px;
+}
+
+/* Scrollbar Track on Firefox */
+::-moz-scrollbar-track {
+  background-color: #ffffff75;
+  width: 8px;
+}
+
+/* Scrollbar Thumb on Firefox */
+::-moz-scrollbar-thumb {
+  background-color: #ffffff75;
+  width: 8px;
+}
+
+/* Scrollbar Track on Internet Explorer and Microsoft Edge */
+::-ms-scrollbar-track {
+  background-color: #ffffff75;
+  width: 8px;
+}
+
+/* Scrollbar Thumb on Internet Explorer and Microsoft Edge */
+::-ms-scrollbar-thumb {
+  background-color: #ffffff75;
+  width: 8px;
+}
+
+html::-webkit-scrollbar {
+  appearance: none;
+  width: 12px;
+}

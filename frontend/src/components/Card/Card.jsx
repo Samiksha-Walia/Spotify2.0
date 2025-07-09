@@ -12,23 +12,23 @@ import ArijitImage from "../../assets/Arijit.jpeg";
 const Card = ({song, idx}) => {
     if (!song) return null;
     const { masterSong, isPlaying } = useSelector((state) => state.mainSong);
-        const {resetEverything,setSongIdx} = useGlobalContext();
-        const dispatch = useDispatch();
-    
-        const handlePlay = (song) => {
-            console.log("playing");
-            setSongIdx(idx)
-            console.log(idx)
-            if (isPlaying) {
-                masterSong.mp3.currentTime = 0;
-                masterSong.mp3.pause();
-                resetEverything();
-            }
-            dispatch(playSong(song));
-        };
-        const handlePause = () => {
-            dispatch(pauseSong());
-        };
+    const {resetEverything,setSongIdx} = useGlobalContext();
+    const dispatch = useDispatch();
+
+    const handlePlay = (song) => {
+        console.log("playing");
+        setSongIdx(idx)
+        console.log(idx)
+        if (isPlaying) {
+            masterSong.mp3.currentTime = 0;
+            masterSong.mp3.pause();
+            resetEverything();
+        }
+        dispatch(playSong(song));
+    };
+    const handlePause = () => {
+        dispatch(pauseSong());
+    };
     return (
         song && (
         <div className="secondary-bg  rounded-lg">

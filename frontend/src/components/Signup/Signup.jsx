@@ -1,7 +1,8 @@
-import React,{useState} from "react";
-import { Link } from "react-router-dom";
+import React,{useState, useEffect} from "react";
+import { Link ,useNavigate} from "react-router-dom";
 import "./signup.css";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 const months = [
     "January",
     "February",
@@ -27,6 +28,8 @@ const Signup = () => {
         password: "",
         gender: "", 
     });
+    const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.account);
 
     const registerUser = async (e) => {
         e.preventDefault();
@@ -64,7 +67,7 @@ const Signup = () => {
                 gender: "",
               });
               toast.success(data.message);
-        
+              navigate("/");
               localStorage.setItem("token", data.token);
             } else {
               toast.error(data.message);
@@ -85,6 +88,11 @@ const Signup = () => {
         }
         }
     };
+    useEffect(() => {
+        if (isAuthenticated) {
+          navigate("/");
+        }
+      }, []);
 
     return (
         <>

@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { userActor } from "../../states/Actors/UserActor";
 const Login = () => {
-  const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector((state) => state.account);
+    const dispatch = useDispatch();
+    const { user, isAuthenticated } = useSelector((state) => state.account);
     const [userDetails, setUserDetails] = useState({
             email: "",
             password: "",
@@ -17,8 +17,8 @@ const Login = () => {
             e.preventDefault();
             const { email, password } = userDetails;
             let d = JSON.stringify({
-            email,
-            password,
+                email,
+                password,
             });
             console.log(d);
             const res = await fetch("http://localhost:5000/api/user/login", {
@@ -52,10 +52,12 @@ const Login = () => {
         <>
             <header className="px-12 py-8">
                 <div className="logo">
+                    <Link to="/">
                     <img src="/assets/white_logo.png" width={120} alt="" />
+                    </Link>
                 </div>
             </header>
-            <div className="container py-10">
+            <div className="bg-[#1a1919] py-10 w-full">
                 <div className="bg-black py-10 text-center w-1/2 mx-auto">
                     <h1 className="text-5xl my-12 font-semibold">
                         Log in to Spotify

@@ -1,4 +1,4 @@
-export const songs = [
+export const songs_mp = [
     {
         id: Math.random() * Date.now(),
         title: "Tum Hi Ho",

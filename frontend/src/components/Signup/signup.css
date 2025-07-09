@@ -64,7 +64,7 @@ input[type="radio"]:checked::before {
   .green-checkbox:checked {
     background-color: #34A853; /* Green color */
   }
-  
+  /**/
   .green-checkbox:checked::after {
     content: '\2713';
     font-size: 14px;

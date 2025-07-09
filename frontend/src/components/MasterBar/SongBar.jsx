@@ -11,7 +11,8 @@ import { BsArrowsAngleContract, BsSpeakerFill } from "react-icons/bs";
 import { pauseMaster, playMaster,playSong, } from "../../states/Actors/SongActor";
 import { useGlobalContext } from "../../states/Context";
 import "./SongBar.css";
-import { songs } from "../../data/songs";
+import { songs_mp } from "../../data/songs_mp";
+//import { songs } from "../Home/Home";
 
 
 const SongBar = () => {
@@ -34,6 +35,27 @@ const SongBar = () => {
         } else {
             dispatch(playMaster());
         }
+    };
+    const addToLiked = async() => {
+        console.log(masterSong.mp3)
+        let data = JSON.stringify({
+            song_mp3:masterSong.mp3.src,
+            song_title:masterSong.title,
+            song_artist:masterSong.artist,
+            song_thumbnail:masterSong.img,
+        })
+        const res = await fetch('http://localhost:5000/api/playlist/like', {
+            method:"POST",
+            headers:{
+                'Content-Type':"application/json",
+                token:localStorage.getItem('token')
+            },
+            body:data,
+        })
+
+        let d = await res.json();
+        console.log(d)
+
     };
     useEffect(() => {
         if (!masterSong.mp3) return;
@@ -115,7 +137,7 @@ const SongBar = () => {
 
             resetEverything();
             setSongIdx(newIdx);
-            dispatch(playSong(songs[newIdx]));
+            dispatch(playSong(songs_mp[newIdx]));
             dispatch(playMaster());
         } else {
             console.log("Already at first song.");
@@ -130,10 +152,10 @@ const SongBar = () => {
 
         const nextIndex = songIdx + 1;
 
-        if (nextIndex < songs.length) {
+        if (nextIndex < songs_mp.length) {
             resetEverything(); // you can keep this if it doesn't modify songIdx
             setSongIdx(nextIndex);
-            dispatch(playSong(songs[nextIndex]));
+            dispatch(playSong(songs_mp[nextIndex]));
             dispatch(playMaster()); // ensure it starts playing
         }
     };
@@ -153,7 +175,7 @@ const SongBar = () => {
                             {masterSong?.artist || "Arijit Singh"}
                         </span>
                     </div>
-                    <AiOutlineHeart className="ml-3" />
+                    <AiOutlineHeart onClick={addToLiked} className="ml-3 cursor-pointer hover:text-green-400"  />
                     <CgScreen className="ml-3" />
                 </div>
             </div>
@@ -161,16 +183,21 @@ const SongBar = () => {
                 <div className="flex justify-center items-center mb-2 gap-6 text-xl">
                     <BiShuffle />
                     <IoMdSkipBackward onClick={backwardSong} />
-                        <button
-                            onClick={handleMaster}
-                            className="flex items-center rounded-full bg-white justify-center p-2"
-                        >
-                            {isPlaying ? (
+                        {isPlaying ? (
+                            <button
+                                onClick={handleMaster}
+                                className="flex items-center rounded-full bg-white justify-center p-2"
+                            >
                                 <FaPause className="text-black text-lg" />
+                                </button>
                             ) : (
+                                <button
+                                    onClick={handleMaster}
+                                    className="flex items-center rounded-full bg-white justify-center p-2"
+                                >
                                 <FaPlay className="text-black text-lg" />
-                            )}
                         </button>
+                      )}
                    
                     <IoMdSkipForward onClick={forwardSong}/>
                     <BiRepeat />

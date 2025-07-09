@@ -3,7 +3,13 @@
     overflow-y: scroll;
 }
 
-.your_library::-webkit-scrollbar {
+/*.your_library::-webkit-scrollbar {
     width: 12px;
     background-color:  #ffffff75;
+}*/
+
+.your_library::-webkit-scrollbar {
+  appearance: none;
+  width: 12px;
+  background-color: black;
 }

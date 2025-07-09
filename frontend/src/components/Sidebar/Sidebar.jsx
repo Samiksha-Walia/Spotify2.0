@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiLibrary, BiSolidHome } from 'react-icons/bi';
 import { FiSearch } from 'react-icons/fi';
 import {FaPlus} from 'react-icons/fa';
 import { TbWorld } from 'react-icons/tb';
 import Signup from './Signup';
 import "./Sidebar.css"
+import ArijitImage from "../../assets/Arijit.jpeg";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+    const [playlists, setPlaylists] = useState([]);
+    const getPlaylists = async () => {
+        const res = await fetch("http://localhost:5000/api/playlist/", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        });
+    
+        let d = await res.json();
+        console.log(d);
+        setPlaylists(d.playlists);
+    };
+    useEffect(() => {
+        getPlaylists();
+    }, []);
   return (
     <div className='w-1/4 fixed left-0 top-0 sidebar'>
         <div className="nav secondary-bg rounded-lg p-6">
-            <div className="flex items-center gap-4">
+            <Link to={"/"} className="flex items-center gap-4">
                 <BiSolidHome className="font-bold text-xl" />
-                <span>
+                <span className="text-lg">
                     Home
                 </span>
-            </div>
+            </Link >
 
-            <div className="flex mt-4 items-center gap-4">
+            <Link to ={"/search"} className="flex mt-4 items-center gap-4">
                 <FiSearch className="font-bold text-xl" />
-                <span>
+                <span className="text-lg">
                     Search
                 </span>
-            </div>
+            </Link>
         </div>
 
 
@@ -38,8 +56,44 @@ const Sidebar = () => {
                         <FaPlus className="font-bold text-xl"/>
                     </button>
                 </div>
-                
-             <div className="your_library">
+                <div className="btns flex gap-4 mb-4">
+                    <Link
+                    to={"/"}
+                    className="rounded-full mt-4 px-3   py-1 bg-white/10 text-white text-sm"
+                    >
+                    Playlists
+                    </Link>
+                    <Link
+                    to={"/"}
+                    className="rounded-full mt-4 px-3   py-1 bg-white/10 text-white text-sm"
+                    >
+                    Artists
+                    </Link>
+                </div>
+                <div className="my-6 px-2">
+                    {playlists.map((p) => {
+                    return (
+                        <div key={p._id} className="flex gap-4 my-2">
+                        <div>
+                            <img
+                            src={ArijitImage}
+                            width={50}
+                            height={50}
+                            alt=""
+                            />
+                        </div>
+                        <div>
+                            <h3 className="text-base font-medium mb-2">{p.title}</h3>
+                            <p className="text-sm text-white/80">
+                            Playlist
+                            <span> . {p.songs.length} Songs</span>
+                            </p>
+                        </div>
+                        </div>
+                    );
+                    })}
+                </div>
+             {/*<div className="your_library">
             <div className="leading-8 mt-2 tertiary-bg rounded-lg px-4 py-6">
                 <p className='font-bold'>Create your first playlist</p>
                 <p className='font-semibold'>It's easy, we'll help you</p>
@@ -54,7 +108,7 @@ const Sidebar = () => {
                         Browse Podcasts
                     </button>
             </div>
-        </div>
+        </div>*/}
         </div>
 
         <div className="mt-4 px-4 flex gap-4 flex-wrap">
