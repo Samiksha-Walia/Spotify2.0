@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import "./Card.css";
 import { FaPause,FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,16 +6,23 @@ import { pauseSong, playSong } from "../../states/Actors/SongActor";
 import { useGlobalContext } from "../../states/Context";
 import cardImg from '../../assets/card.png';
 import ArijitImage from "../../assets/Arijit.jpeg";
+import AuthModal from "../AuthModal";
 
 
 
-const Card = ({song, idx}) => {
+const Card = ({song, idx ,isAuthenticated, setShowModal,setSelectedSong  }) => {
     if (!song) return null;
+    
     const { masterSong, isPlaying } = useSelector((state) => state.mainSong);
     const {resetEverything,setSongIdx} = useGlobalContext();
     const dispatch = useDispatch();
 
     const handlePlay = (song) => {
+        if (!isAuthenticated) {
+            setSelectedSong (song);
+            setShowModal(true);
+            return;
+            }
         console.log("playing");
         setSongIdx(idx)
         console.log(idx)

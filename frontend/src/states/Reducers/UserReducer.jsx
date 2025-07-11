@@ -8,7 +8,7 @@ export const userReducer = (
     case USER_LOGGED_IN:
       return { ...state, user: action.payload, isAuthenticated: true };
     case USER_LOGGED_OUT:
-      return { ...state, user: {}, isAuthenticate: false };
+      return { ...state, user: {}, isAuthenticated: false };
     case USER_ABOUT:
       return { ...state, user: action.payload, isAuthenticated: true };
     default:

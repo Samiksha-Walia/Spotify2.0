@@ -8,7 +8,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const { user, isAuthenticated } = useSelector((state) => state.account);
     const [userDetails, setUserDetails] = useState({
-            email: "",
+            identifier: "",
             password: "",
         });
         const navigate = useNavigate();
@@ -17,8 +17,8 @@ const Login = () => {
             e.preventDefault();
             const { email, password } = userDetails;
             let d = JSON.stringify({
-                email,
-                password,
+                username: userDetails.identifier,
+                password: userDetails.password,
             });
             console.log(d);
             const res = await fetch("http://localhost:5000/api/user/login", {
@@ -74,8 +74,8 @@ const Login = () => {
                             <input
                                 type="text"
                                 id="email"
-                                name="email"
-                                value={userDetails.email}
+                                name="identifier"
+                                value={userDetails.identifier}
                                 onChange={onChange}
                                 placeholder="Email or username"
                                 className="block w-full rounded-[4px] border-0  text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-white bg-[#1a1919]"

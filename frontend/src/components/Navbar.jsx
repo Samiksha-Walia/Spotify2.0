@@ -39,9 +39,10 @@ const Navbar = () => {
   const dispatch  = useDispatch()
   const logoutUser = () => {
 
-      localStorage.removeItem('token')
-      navigate('/login')
-      dispatch(logOutUser())
+      localStorage.removeItem('token');
+      dispatch(logOutUser());
+      navigate('/');
+  
   }
   useEffect(() => {
     console.log(location.pathname);

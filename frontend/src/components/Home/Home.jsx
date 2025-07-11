@@ -1,4 +1,5 @@
 import Layout from "../../Layout/Layout";
+import React, { useState } from "react";
 import { FaGreaterThan, FaLessThan, FaUser  } from "react-icons/fa";
 import Card from "../Card/Card";
 import { Link } from "react-router-dom";
@@ -11,13 +12,18 @@ import { userActor } from "../../states/Actors/UserActor";
 import Navbar from "../Navbar";
 import { useGlobalContext } from "../../states/Context";
 import Footer from "../Footer/Footer";
-
+import Sidebar from "../Sidebar/Sidebar";
+import Signup from "../Sidebar/Signup";
+import AuthModal from "../AuthModal";
 
 
 
 const Home = () => {
-  //const { user, isAuthenticated } = useSelector((state) => state.account);
+  const { user, isAuthenticated } = useSelector((state) => state.account);
   const { getUser } = useGlobalContext();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+
   
     useEffect(() => {
       getUser();
@@ -35,7 +41,7 @@ const Home = () => {
                 </div>
                 <div className="grid  gap-6 grid-cols-5">
                   {songs_mp.map((song, i) => {
-                    return <Card key={song.id} idx={i} song={song} />;
+                    return <Card key={song.id} idx={i} song={song} isAuthenticated={isAuthenticated} setShowModal={setShowModal} setSelectedSong={setSelectedSong}  />;
                   })}
                 </div>
                 <div className="flex justify-between my-4 items-center">
@@ -46,12 +52,16 @@ const Home = () => {
                 </div>
                 <div className="grid  gap-6 grid-cols-5">
                   {songs_mp.map((song, i) => {
-                    return <Card key={song.id} idx={i} song={song} />;
+                    return <Card key={song.id} idx={i} song={song} isAuthenticated={isAuthenticated} setShowModal={setShowModal} setSelectedSong={setSelectedSong} />;
                   })}
                 </div>
               </div>
               <Footer/>
-              <SongBar />
+              {isAuthenticated ? <SongBar /> : <Signup />}
+              {!isAuthenticated && showModal && (
+                <AuthModal song={selectedSong} onClose={() => setShowModal(false)} />
+)}
+
             </Layout>
     );
 };
