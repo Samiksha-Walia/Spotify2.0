@@ -1,5 +1,6 @@
 // components/AuthModal.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AuthModal = ({ onClose, song  }) => {
   return (
@@ -21,16 +22,18 @@ const AuthModal = ({ onClose, song  }) => {
             )}          
             <h2 className="text-xl font-bold">Start listening with a free account</h2>
           <button className="bg-green-500 hover:bg-green-600 text-black font-semibold py-2 px-4 rounded-full w-full">
+            <Link to={"/signup"} >
             Sign up for free
+            </Link>
           </button>
           <button className="bg-transparent border border-gray-400 text-white py-2 px-4 rounded-full w-full">
             Download app
           </button>
           <p className="text-sm">
             Already have an account?{" "}
-            <span className="underline cursor-pointer text-green-400" onClick={() => alert("Redirect to login")}>
+            <Link to={"/login"} className="underline cursor-pointer text-green-400" >
               Log in
-            </span>
+            </Link>
           </p>
         </div>
       </div>

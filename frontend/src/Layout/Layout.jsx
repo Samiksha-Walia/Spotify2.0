@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar/Sidebar";
+{/*import Sidebar from "../components/Sidebar/Sidebar";
 
 const Layout = ({ children }) => {
     return (
@@ -9,6 +9,39 @@ const Layout = ({ children }) => {
             </div>
         </div>
     );
+};
+
+export default Layout;
+
+
+import Sidebar from "../components/Sidebar/Sidebar";
+const Layout = ({ children }) => {
+    return (
+        <div className="flex h-screen bg-black text-white overflow-hidden">
+            <Sidebar />
+            <div className="flex-1 overflow-y-auto">
+                {children}
+            </div>
+        </div>
+    );
+};
+export default Layout;
+*/}
+
+// Layout.jsx
+import React from 'react';
+import Sidebar from '../components/Sidebar/Sidebar';
+import "./Layout.css";
+
+const Layout = ({ children }) => {
+  return (
+    <div className="grid-layout">
+      <Sidebar />
+      <div className="main-view rounded-xl">
+        {children}
+      </div>
+    </div>
+  );
 };
 
 export default Layout;

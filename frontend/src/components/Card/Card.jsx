@@ -45,15 +45,14 @@ const Card = ({song, idx ,isAuthenticated, setShowModal,setSelectedSong  }) => {
                 {masterSong.id === song.id && isPlaying ? (
                     <button
                         onClick={handlePause}
-                        className="flex items-center play_btn absolute bottom-0 right-0 rounded-[50%] bg-green-500 justify-center p-3"
+                        className="play_btn"
                     >
                         <FaPause className="text-black text-xl" />
                     </button>
                 ) : (
                     <button
                         onClick={() => handlePlay(song)}
-                        className="flex items-center play_btn absolute bottom-0 right-0 rounded-[50%] bg-green-500 justify-center p-3"
-                    >
+                        className="play_btn">
                         <FaPlay className="text-black text-xl" />
                     </button>
                 )}

@@ -180,20 +180,20 @@ const SongBar = () => {
                 </div>
             </div>
             <div className="flex-[5] flex flex-col items-center">
-                <div className="flex justify-center items-center mb-2 gap-6 text-xl">
+                <div className="flex justify-center items-center mb-2 gap-6 text-2xl">
                     <BiShuffle />
                     <IoMdSkipBackward onClick={backwardSong} />
                         {isPlaying ? (
                             <button
                                 onClick={handleMaster}
-                                className="flex items-center rounded-full bg-white justify-center p-2"
+                                className="w-10 h-10 flex items-center rounded-full bg-white justify-center p-2"
                             >
                                 <FaPause className="text-black text-lg" />
                                 </button>
                             ) : (
                                 <button
                                     onClick={handleMaster}
-                                    className="flex items-center rounded-full bg-white justify-center p-2"
+                                    className="w-10 h-10 flex items-center rounded-full bg-white justify-center p-2"
                                 >
                                 <FaPlay className="text-black text-lg" />
                         </button>
@@ -252,7 +252,7 @@ const SongBar = () => {
                         className={`active_progress w-[${volume}%]`}
                     ></div>
                 </div>
-                <BsArrowsAngleContract />
+                <BsArrowsAngleContract className="text-2xl"/>
             </div>
             <div className="hidden">
                 <div className="w-[1%]"></div>

@@ -15,7 +15,7 @@ import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 import Signup from "../Sidebar/Signup";
 import AuthModal from "../AuthModal";
-
+import {FaAngleLeft, FaAngleRight} from "react-icons/fa";
 
 
 const Home = () => {
@@ -29,10 +29,16 @@ const Home = () => {
       getUser();
     }, []);
     return (
+    <>
+    <Navbar />
         <Layout>
-              <Navbar />
+              
         
-              <div className="tertiary-bg ml-2 px-4 py-4 home ">
+              <div >
+                <div className="flex gap-2 items-center  w-1/2">
+                  <FaAngleLeft className="bg-white/10 text-3xl p-1  rounded-[50%] " />
+                  <FaAngleRight className="bg-white/10 text-3xl p-1  rounded-[50%] " />
+                </div>
                 <div className="flex justify-between mb-4 pt-4 items-center">
                   <span className="text-xl font-bold hover:underline cursor-pointer">
                     Focus
@@ -45,7 +51,7 @@ const Home = () => {
                   })}
                 </div>
                 <div className="flex justify-between my-4 items-center">
-                  <span className="text-xl font-bold hover:underline cursor-pointer">
+                  <span className="text-xl font-bold hover:underline cursor-poiSnter">
                     Spotify List
                   </span>
                   <span>Show All</span>
@@ -63,6 +69,7 @@ const Home = () => {
 )}
 
             </Layout>
+            </>
     );
 };
 

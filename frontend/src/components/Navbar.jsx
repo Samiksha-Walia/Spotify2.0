@@ -6,7 +6,12 @@ import {
   FaLink,
   FaSearch,
   FaUser,
+  FaHome,
+  FaPlus,
 } from "react-icons/fa";
+
+import {  BiSolidHome } from 'react-icons/bi';
+import { FiSearch } from 'react-icons/fi';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { songs_mp } from "../data/songs_mp";
@@ -15,10 +20,13 @@ import { logOutUser } from "../states/Actors/UserActor";
 
 const Navbar = () => {
   const { user, isAuthenticated } = useSelector((state) => state.account);
-
-  const location = useLocation();
-  const [query, setQuery] = useState("");
   const { setFilteredSongs } = useGlobalContext();
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const dispatch  = useDispatch();
+  const location = useLocation();
+
   const filterSongs = (e) => {
     setQuery(e.target.value);
     console.log(e.target.value);
@@ -34,9 +42,7 @@ const Navbar = () => {
     if (e.target.value === "") setFilteredSongs([]);
     else setFilteredSongs(fil);
   };
-  const [showDropDown, setShowDropDown] = useState(false);
-  const navigate = useNavigate()
-  const dispatch  = useDispatch()
+ 
   const logoutUser = () => {
 
       localStorage.removeItem('token');
@@ -48,10 +54,27 @@ const Navbar = () => {
     console.log(location.pathname);
   }, [location.pathname]);
   return (
-    <header className="flex sticky top-0 z-50 justify-between ml-2 rounded-[6px]  mt-2 px-8 secondary-bg items-center ">
+    <header 
+    className="w-full sticky top-0 z-50 bg-black h-[64px] px-4 sm:px-6 flex items-center justify-between "
+    id="global-nav-bar">
+      <div className="flex items-center gap-6">
+        <Link to="/" className="flex items-center gap-2">
+          {/* Use your own logo or replace src */}
+          <img src="/white_logo.png" alt="Spotify" className="h-8" />
+        </Link>
+        <Link to="/" className="text-white flex items-center gap-2 hover:text-green-500">
+          <FaHome />
+          <span className="hidden sm:inline text-sm font-medium">Home</span>
+        </Link>
+
+        <Link to="/search" className="text-white flex items-center gap-2 hover:text-green-500">
+          <FiSearch />
+          <span className="hidden sm:inline text-sm font-medium">Search</span>
+        </Link>
+      </div>
+     
       <div className="flex gap-2 items-center  w-1/2">
-        <FaAngleLeft className="bg-white/10 text-3xl p-1  rounded-[50%] " />
-        <FaAngleRight className="bg-white/10 text-3xl p-1  rounded-[50%] " />
+        
         <div
           className={`${
             location.pathname !== "/search" ? "opacity-0" : ""
@@ -76,7 +99,7 @@ const Navbar = () => {
           <div>
             <Link
               to={"/signup"}
-              className="rounded-full  mt-4 px-8 text-base  py-2 text-white- font-semibold"
+              className="rounded-full  mt-4 px-8 text-base  py-2 text-white font-semibold"
             >
               Sign Up
             </Link>

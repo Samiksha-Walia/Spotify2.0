@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.main-view {
+    grid-area: main;
+    overflow-y: auto;
+    background-color: #121212;
+    padding: 16px;
+    margin: 6px;
+    scrollbar-gutter: stable;
+}
 
 *{
   margin: 0;
@@ -16,7 +24,7 @@
 body {
   background-color: #000;
   color: #fff;
-  scroll-behavior: smooth;
+  overflow: hidden;
   padding: 10px
 }
 
@@ -35,33 +43,50 @@ body {
   background-color: var(--tertiary-bg);
 }
 
-/* Scrollbar Thumb */
-::-webkit-scrollbar-thumb {
-  background-color: #ffffff75;
-  width: 8px;
+
+.main-view::-webkit-scrollbar {
+  width: 6px;
 }
 
+.main-view:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+/* Scrollbar Thumb */
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 /* Scrollbar Track on Firefox */
 ::-moz-scrollbar-track {
-  background-color: #ffffff75;
+  background-color: rgba(255, 255, 255, 0.3);
   width: 8px;
 }
 
 /* Scrollbar Thumb on Firefox */
 ::-moz-scrollbar-thumb {
-  background-color: #ffffff75;
+  background-color: rgba(255, 255, 255, 0.3);
   width: 8px;
 }
 
 /* Scrollbar Track on Internet Explorer and Microsoft Edge */
 ::-ms-scrollbar-track {
-  background-color: #ffffff75;
+  background-color: rgba(255, 255, 255, 0.3);
   width: 8px;
 }
 
 /* Scrollbar Thumb on Internet Explorer and Microsoft Edge */
 ::-ms-scrollbar-thumb {
-  background-color: #ffffff75;
+  background-color: rgba(255, 255, 255, 0.3);
   width: 8px;
 }
 

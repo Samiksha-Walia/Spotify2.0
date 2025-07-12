@@ -26,8 +26,8 @@ const Sidebar = () => {
         getPlaylists();
     }, []);
   return (
-    <div className='w-1/4 fixed left-0 top-0 sidebar'>
-        <div className="nav secondary-bg rounded-lg p-6">
+    <div className='sidebar'>
+        {/*<div className="nav secondary-bg rounded-lg p-6">
             <Link to={"/"} className="flex items-center gap-4">
                 <BiSolidHome className="font-bold text-xl" />
                 <span className="text-lg">
@@ -41,7 +41,7 @@ const Sidebar = () => {
                     Search
                 </span>
             </Link>
-        </div>
+        </div>*/}
 
 
         <div className="mt-2 secondary-bg rounded-lg px-2 py-2">
@@ -52,7 +52,7 @@ const Sidebar = () => {
                             Your Library
                         </span>
                     </div>
-                    <button className="hover:bg-black/25 rounded-[50%] p-2">
+                    <button className="hover:bg-black/25 w-10 h-10 rounded-[50%] p-2">
                         <FaPlus className="font-bold text-xl"/>
                     </button>
                 </div>
@@ -93,37 +93,39 @@ const Sidebar = () => {
                     );
                     })}
                 </div>
-             {/*<div className="your_library">
-            <div className="leading-8 mt-2 tertiary-bg rounded-lg px-4 py-6">
-                <p className='font-bold'>Create your first playlist</p>
-                <p className='font-semibold'>It's easy, we'll help you</p>
-                    <button className="rounded-full text-black mt-4 px-4 py-0 bg-white font-semibold">
+             <div className="your_library">
+            <div className="bg-[#121212] rounded-md p-4 my-2">
+                <h3 className='font-semibold'>Create your first playlist</h3>
+                <p className='text-sm text-gray-400'>It's easy, we'll help you</p>
+                    <button className="bg-white text-black rounded-full px-4 py-2 mt-2 font-semibold text-sm">
                         Create Playlist
                     </button>
             </div>
-            <div className="leading-8 mt-4 tertiary-bg rounded-lg px-4 py-6">
-                <p className='font-bold'>Let's find some podcasts to follow</p>
-                <p className='font-semibold'>We'll keep you updated on new episodes</p>
-                    <button className="rounded-full text-black mt-4 px-4 py-0 bg-white font-semibold">
+            <div className="bg-[#121212] rounded-md p-4 my-2">
+                <p className='font-semibold'>Let's find some podcasts to follow</p>
+                <p className='text-sm text-gray-400'>We'll keep you updated on new episodes</p>
+                    <button className="bg-white text-black rounded-full px-4 py-2 mt-2 font-semibold text-sm">
                         Browse Podcasts
                     </button>
             </div>
-        </div>*/}
         </div>
 
+        <div className='pt-44'>
         <div className="mt-4 px-4 flex gap-4 flex-wrap">
-            <a className='text-xs text-gray-300 mx-4 ' href="#">Legal</a>
-            <a className='text-xs text-gray-300 mx-4 ' href="#">Privacy Center</a>
-            <a className='text-xs text-gray-300 mx-4 ' href="#">Privacy Policy</a>
-            <a className='text-xs text-gray-300 mx-4 ' href="#">Cookies</a>
-            <a className='text-xs text-gray-300 mx-4 ' href="#">About Ads</a>
-            <a className='text-xs text-gray-300 mx-4 ' href="#">Accessibility</a>
+            <a className='text-xs text-gray-300' href="#">Legal</a>
+            <a className='text-xs text-gray-300' href="#">Privacy Center</a>
+            <a className='text-xs text-gray-300' href="#">Privacy Policy</a>
+            <a className='text-xs text-gray-300' href="#">Cookies</a>
+            <a className='text-xs text-gray-300' href="#">About Ads</a>
+            <a className='text-xs text-gray-300' href="#">Accessibility</a>
         </div>
 
-        <button className='mx-4 mt-1 text-sm border-white border rounded-full flex gap-2 px-3 py-1 items-center text-white' >
-            <TbWorld/>
+        <button className='mx-4 mt-1 w-[120px] text-sm border-white border rounded-full flex gap-2 px-3 py-1 items-center text-white'>
+            <TbWorld />
             <span className="text-white font-bold">English</span>
         </button>
+        </div>
+        </div>
         {/* <Signup /> */}
     </div>
   );

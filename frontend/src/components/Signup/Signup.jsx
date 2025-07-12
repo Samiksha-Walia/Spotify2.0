@@ -3,6 +3,7 @@ import { Link ,useNavigate} from "react-router-dom";
 import "./signup.css";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import WhiteLogo from "../../assets/white_logo.png";
 const months = [
     "January",
     "February",
@@ -96,30 +97,27 @@ const Signup = () => {
 
     return (
         <>
-            <div className="container py-8 bg-white">
-                <div className="logo text-center">
+            <div>
+                <div className="logo mt-2 text-center">
                     <Link to="/">
                         <img
-                            src="/assets/s_logo_black.png"
+                            src={WhiteLogo}
                             className="mx-auto"
                             width={140}
                             alt=""
                         />
                     </Link>
                 </div>
-                <div className=" text-black">
-                    <div className="py-10 text-center w-1/2 mx-auto">
+                <div className=" text-white">
+                    <div className="text-center mx-auto">
                         <h1 className="text-3xl tracking-tighter my-4 font-semibold">
                             Sign up for free to start listening.
                         </h1>
-                        <span className="or__">or</span>
-                        <p className="my-4 font-bold">
-                            Sign up with your email address
-                        </p>
+                        
                         <form 
                             onSubmit={registerUser}
-                            className="text-center mx-auto w-3/4 ">
-                            <div className="w-4/5 mx-auto text-left py-4">
+                            className="text-center mx-auto  ">
+                            <div className=" mx-auto text-left ">
                                 <label
                                     htmlFor="email"
                                     className="font-semibold mb-2 text-sm inline-block"
@@ -133,10 +131,10 @@ const Signup = () => {
                                     value={userDetails.email}
                                     onChange={onChange}
                                     placeholder="Enter your email"
-                                    className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                    className="block w-full rounded-md border border-gray-700 bg-black text-white placeholder:text-gray-400 focus:bg-black focus:text-white focus:placeholder:text-gray-500 transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                 />
                             </div>
-                            <div className="w-4/5 mx-auto text-left py-4">
+                            <div className=" mx-auto text-left ">
                                 <label
                                     htmlFor="password"
                                     className="font-semibold mb-2 text-sm inline-block"
@@ -150,10 +148,10 @@ const Signup = () => {
                                     value={userDetails.password}
                                     onChange={onChange}
                                     placeholder="Create a password"
-                                    className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                    className="block w-full rounded-md border border-gray-700 bg-black text-white transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                 />
                             </div>
-                            <div className="w-4/5 mx-auto text-left py-4">
+                            <div className=" mx-auto text-left ">
                                 <label
                                     htmlFor="username"
                                     className="font-semibold mb-2 text-sm inline-block"
@@ -166,12 +164,12 @@ const Signup = () => {
                                     name="username"
                                     value={userDetails.username}
                                     onChange={onChange}
-                                    className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                    className="block w-full rounded-md border border-gray-700 bg-black text-white transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                 />
                                 <small>it will appear on your profile</small>
                             </div>
                             <div className="text-left"></div>
-                            <div className="w-4/5 mx-auto text-left py-4">
+                            <div className=" mx-auto text-left ">
                                 <label
                                     htmlFor="date"
                                     className="font-semibold mb-2 text-sm inline-block"
@@ -193,7 +191,7 @@ const Signup = () => {
                                             value={userDetails.day}
                                             onChange={onChange}
                                             placeholder="DD"
-                                            className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                            className="block w-full rounded-md border border-gray-700 bg-black text-white placeholder:text-gray-400 focus:text-white focus:placeholder:text-gray-500 transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                         />
                                     </div>
                                     <div className="w-2/4">
@@ -210,7 +208,7 @@ const Signup = () => {
                                             value={userDetails.month}
                                             onChange={onChange}
                                             placeholder="MM"
-                                            className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                            className="block w-full rounded-md border border-gray-700 bg-black text-white transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                         >
                                             {months.map((m) => {
                                                 return (
@@ -235,7 +233,7 @@ const Signup = () => {
                                             value={userDetails.year}
                                             onChange={onChange}
                                             placeholder="YYYY"
-                                            className="block w-full rounded-[4px] border-0  text-black transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-[3px] focus:ring-inset focus:ring-white-600 outline-none p-3 hover:ring-black bg-[#fff]"
+                                            className="block w-full rounded-md border border-gray-700 bg-black text-white transition-all duration-200 shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-500 outline-none p-3"
                                         />
                                     </div>
                                 </div>
@@ -296,13 +294,13 @@ const Signup = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-4/5 mx-auto text-left py-4">
+                            <div className=" mx-auto text-left ">
                                 <div className="my-4 flex items-center gap-4" >
                                     <input
                                         type="checkbox"
                                         className="green-checkbox relative"
-                                        name=""
-                                        id=""
+                                        name="marketing_opt_out"
+                                        id="marketing_opt_out"
                                     />
                                     <p className="text-sm">
                                         I would prefer not to receive marketing
@@ -313,8 +311,8 @@ const Signup = () => {
                                     <input
                                         type="checkbox"
                                         className="green-checkbox relative"
-                                        name=""
-                                        id=""
+                                        name="share_registration_data"
+                                        id="share_registration_data"
                                     />
                                     <p className="text-sm">
                                     Share my registration data with Spotify's content providers for marketing purposes.
@@ -337,7 +335,7 @@ const Signup = () => {
                                 </p>
                             </div>
 
-                            <div className="w-full text-left py-4">
+                            <div className="w-full text-left ">
                                 <input
                                     type="submit"
                                     value="Sign up"
@@ -345,8 +343,7 @@ const Signup = () => {
                                 />
                             </div>
                         </form>
-                        <div className="border-b border-gray-400 w-3/4 my-4 mx-auto"></div>
-                        <p className="pt-8">
+                        <p className="pt-5">
                             <span className="text-gray-300 font-semibold">
                                 Don't have an account?{" "}
                             </span>

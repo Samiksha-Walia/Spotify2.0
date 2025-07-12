@@ -1,3 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #000;
+  color: #fff;
+  overflow: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  background-color: #29292984;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* Form Layout */
+form {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background-color: #29292900;
+  color:#fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #333;
+  background-color: #000; /* BLACK BG */
+  color: #fff;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: #1db954;
+  box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.2);
+}
+
+button[type="submit"] {
+  background-color: #1db954;
+  color: #000;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  transform: scale(1.05);
+  background-color: #1ed760;
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+small {
+  font-size: 12px;
+  color: #66666600;
+}
+
+/* Gender Radio Buttons */
+.gender-options {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.gender-options label {
+  font-size: 14px;
+}
+
+
+
+
 .or__ {
     color: gray;
     font: 1.2rem;
@@ -47,7 +148,7 @@ input[type="radio"]:checked::before {
     height: 12px;
     /* margin: 3px; */
     border-radius: 50%;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0);
 }
 .green-checkbox {
     -webkit-appearance: none;
@@ -77,3 +178,35 @@ input[type="radio"]:checked::before {
     transform: translate(-50%,-50%);
   }
   
+
+
+  @media screen and (max-width: 640px) {
+  form {
+    padding: 1rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Link Styling */
+a {
+  color: #1db954;
+  font-weight: 500;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+/* Fix for browser autofill (especially Chrome) forcing white background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+  background-color: #000 !important;
+  color: #fff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
+  box-shadow: 0 0 0px 1000px #000 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 9999s ease-in-out 0s;
+}

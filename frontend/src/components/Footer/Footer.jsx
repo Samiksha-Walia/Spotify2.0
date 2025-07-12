@@ -40,15 +40,7 @@ const Footer = () => {
       </div>
       <div className="border-b border-white/10 my-8 w-full"></div>
       <div className="flex justify-between">
-        <ul className="text-sm flex gap-4">
-          <li className="text-gray-400">Legal</li>
-          <li className="text-gray-400">Privacy Center</li>
-          <li className="text-gray-400">Privacy Policy</li>
-          <li className="text-gray-400">Cookies</li>
-          <li className="text-gray-400">About Ads</li>
-          <li className="text-gray-400">Accessibility</li>
-        </ul>
-        <h4 className="text-gray-400 text-sm">© 2023 Spotify AB</h4>
+        <h4 className="text-gray-400 text-sm">© 2025 Spotify AB</h4>
       </div>
     </div>
   );
