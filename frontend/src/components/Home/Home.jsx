@@ -18,6 +18,7 @@ import AuthModal from "../AuthModal";
 import {FaAngleLeft, FaAngleRight} from "react-icons/fa";
 
 
+
 const Home = () => {
   const { user, isAuthenticated } = useSelector((state) => state.account);
   const { getUser } = useGlobalContext();
@@ -26,7 +27,9 @@ const Home = () => {
 
   
     useEffect(() => {
-      getUser();
+      if (!user) {
+        getUser();
+      }
     }, []);
     return (
     <>

@@ -35,6 +35,7 @@ const Login = () => {
                   console.log(data);
                   toast.success(data.message);
                   localStorage.setItem("token", JSON.stringify(data.token));
+                  localStorage.setItem("user", JSON.stringify(data.user));
                   dispatch(userActor(data.user));
                   navigate("/");
                 } else {

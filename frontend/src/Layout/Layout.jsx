@@ -36,6 +36,7 @@ import "./Layout.css";
 const Layout = ({ children }) => {
   return (
     <div className="grid-layout">
+      
       <Sidebar />
       <div className="main-view rounded-xl">
         {children}

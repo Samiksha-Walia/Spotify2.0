@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from "./components/Login/Login";
@@ -11,6 +11,10 @@ import { AppProvider } from './states/Context';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Search from "./components/Search/Search";
+import PlaylistPage from './components/PlaylistPage/PlaylistPage';
+
+
+
 
 const App = () => {
   return (
@@ -22,6 +26,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/playlist/:id" element={<PlaylistPage />} />
           </Routes>
         </Router>
         <ToastContainer

@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -27,12 +28,11 @@ const UserSchema = new mongoose.Schema({
   },
   playlists:[
       {
-        playlist_id:{
-          type: mongoose.Schema.Types.ObjectId,
-          required:true,
-        }
-      }
-    ]
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Playlist",
+    },
+      
+    ],
   
 });
 

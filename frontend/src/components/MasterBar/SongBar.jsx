@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { AiOutlineHeart, AiOutlinePlaySquare } from "react-icons/ai";
 import { IoMdSkipBackward, IoMdSkipForward } from "react-icons/io";
@@ -14,6 +14,8 @@ import "./SongBar.css";
 import { songs_mp } from "../../data/songs_mp";
 //import { songs } from "../Home/Home";
 
+import { toast } from "react-toastify";
+
 
 const SongBar = () => {
     const { masterSong, isPlaying } = useSelector((state) => state.mainSong);
@@ -27,8 +29,13 @@ const SongBar = () => {
         setCurrTime,
         duration,
         setDuration,
+        currentPlaylist,
     } = useGlobalContext();
     const dispatch = useDispatch();
+    const [volume, setVolume] = useState(50);
+    const audioRef = useRef(null);
+
+
     const handleMaster = () => {
         if (isPlaying) {
             dispatch(pauseMaster());
@@ -36,81 +43,128 @@ const SongBar = () => {
             dispatch(playMaster());
         }
     };
-    const addToLiked = async() => {
-        console.log(masterSong.mp3)
-        let data = JSON.stringify({
-            song_mp3:masterSong.mp3.src,
-            song_title:masterSong.title,
-            song_artist:masterSong.artist,
-            song_thumbnail:masterSong.img,
-        })
-        const res = await fetch('http://localhost:5000/api/playlist/like', {
-            method:"POST",
-            headers:{
-                'Content-Type':"application/json",
-                token:localStorage.getItem('token')
-            },
-            body:data,
-        })
 
-        let d = await res.json();
-        console.log(d)
-
+    const formatTime = (secs) => {
+        if (!secs || isNaN(secs)) return "00:00";
+        const minutes = Math.floor(secs / 60);
+        const seconds = Math.floor(secs % 60);
+        return `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
     };
+
+
     useEffect(() => {
-        if (!masterSong.mp3) return;
-
-        masterSong.mp3.volume = volume / 100;
-        setDuration(formatTime(masterSong?.mp3?.duration));
-
-        if (isPlaying) {
-            masterSong.mp3.play();
-        } else {
-            masterSong.mp3.pause();
+        if (!masterSong?.mp3) {
+            toast.error("Audio file not found");
+            return;
         }
 
-        const interval = setInterval(() => {
-            if (masterSong?.mp3?.currentTime && isPlaying) {
-                const current = masterSong.mp3.currentTime;
-                const total = masterSong.mp3.duration;
+        const audio = new Audio(masterSong.mp3); // ✅ force rebuild
+        audioRef.current = audio;
+        audio.volume = volume / 100;
+        
+        //const audio = audioRef.current;
+       // audioRef.current.volume = volume / 100;
 
-                setProgress((current / total) * 100);
-                setCurrTime(formatTime(current));
+       
 
-                if (current >= total) {
-                    dispatch(pauseMaster());
-                    resetEverything();
-                }
-            }
-        }, 500); // update twice per second for smoother progress
+        const onLoadedMetadata = () => {
+            setDuration(formatTime(audio.duration));
+        };
+
+        const onTimeUpdate = () => {
+            const current = audio.currentTime;
+            const total = audio.duration || 0;
+            setProgress((current / total) * 100);
+            setCurrTime(formatTime(current));
+        };
+
+        const onEnded = () => {
+            dispatch(pauseMaster());
+            resetEverything();
+        };
+
+        audio.addEventListener("loadedmetadata", onLoadedMetadata);
+        audio.addEventListener("timeupdate", onTimeUpdate);
+        audio.addEventListener("ended", onEnded);
+
+        if (isPlaying) {
+            audio.play().catch((err) => {
+            console.error("Playback error:", err);
+        });
+    } else audio.pause();
 
         return () => {
-            clearInterval(interval); // cleanup on unmount or dependency change
+            audio.pause();
+            audio.removeEventListener("loadedmetadata", onLoadedMetadata);
+            audio.removeEventListener("timeupdate", onTimeUpdate);
+            audio.removeEventListener("ended", onEnded);
         };
     }, [masterSong, isPlaying]);
 
-
     const changeProgress = (e) => {
-        setProgress(e.target.value);
-        //masterSong.mp3.currentTime = e.target.value;
-        masterSong.mp3.currentTime =
-            (e.target.value / 100) * masterSong.mp3.duration;
-        console.log(progress);
+        const newProgress = e.target.value;
+        if (!audioRef.current) return;
+        const seekTime = (newProgress / 100) * audioRef.current.duration;
+        audioRef.current.currentTime = seekTime;
+        setProgress(newProgress);
     };
-    const [volume, setVolume] = useState(50);
-    const changeVolume = (e) => {
-        setVolume(e.target.value);
-        console.log(e.target.value);
-        masterSong.mp3.volume = e.target.value / 100;
-    };
-    const formatTime = (durationInSeconds) => {
-        let minutes = Math.floor(durationInSeconds / 60);
-        let seconds = Math.round(durationInSeconds % 60);
 
-        let formattedDuration = `${minutes < 10 ? "0" + minutes : minutes}:${
-            seconds < 9 ? "0" + seconds : seconds
-        }`;
-        return formattedDuration;
+    const changeVolume = (e) => {
+        const newVolume = e.target.value;
+        setVolume(newVolume);
+        if (audioRef.current) audioRef.current.volume = newVolume / 100;
+    };
+
+    const addToLiked = async (song) => {
+        const rawUser = localStorage.getItem("user");
+        const user = rawUser ? JSON.parse(rawUser) : null;
+
+        if (!user || !user._id) {
+        alert("Please log in to like songs.");
+        return;
+        }
+
+        try {
+        const res = await fetch("http://localhost:5000/api/playlist/like", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+            song_mp3: song.mp3,
+            song_title: song.title || song.song_title,
+            song_artist: song.artist || song.song_artist,
+            song_thumbnail: song.img,
+            userId: user._id,
+            }),
+        });
+        const data = await res.json();
+        console.log(data);
+        } catch (err) {
+        console.error("Error adding to liked songs:", err);
+        }
+    };
+
+    const backwardSong = () => {
+        if (songIdx > 0) {
+        const newIdx = songIdx - 1;
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        resetEverything();
+        setSongIdx(newIdx);
+        dispatch(playSong(songs_mp[newIdx])|| currentPlaylist[newIdx]);
+        dispatch(playMaster());
+        }
+    };
+
+    const forwardSong = () => {
+        const nextIndex = songIdx + 1;
+        if (nextIndex < songs_mp.length || nextIndex < currentPlaylist.length) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        resetEverything();
+        setSongIdx(nextIndex);
+        dispatch(playSong(songs_mp[nextIndex])|| currentPlaylist[nextIndex]);
+        dispatch(playMaster());
+        }
     };
     const mouseEnter = () => {
             document.querySelector(".active_progress").style.background = "green";
@@ -124,42 +178,9 @@ const SongBar = () => {
     const leaveVolume = () => {
         document.querySelector("#volume").style.background = "#fff";
     };
-    const backwardSong = () => {
-        console.log("backward");
 
-        if (songIdx > 0) {
-            const newIdx = songIdx - 1;
 
-            if (masterSong.mp3) {
-                masterSong.mp3.pause();
-                masterSong.mp3.currentTime = 0;
-            }
-
-            resetEverything();
-            setSongIdx(newIdx);
-            dispatch(playSong(songs_mp[newIdx]));
-            dispatch(playMaster());
-        } else {
-            console.log("Already at first song.");
-        }
-    };
-
-    const forwardSong = () => {
-        if (masterSong.mp3) {
-            masterSong?.mp3?.pause();
-            masterSong.mp3.currentTime = 0;
-        }
-
-        const nextIndex = songIdx + 1;
-
-        if (nextIndex < songs_mp.length) {
-            resetEverything(); // you can keep this if it doesn't modify songIdx
-            setSongIdx(nextIndex);
-            dispatch(playSong(songs_mp[nextIndex]));
-            dispatch(playMaster()); // ensure it starts playing
-        }
-    };
-
+    
 
     return (
         <div className="fixed w-full flex items-center justify-between bottom-0 left-0 h-20 bg-black">
@@ -169,13 +190,13 @@ const SongBar = () => {
 
                     <div>
                         <h3 className="text-sm font-semibold">
-                            {masterSong?.title || "Arijit Singh"}
+                            {masterSong?.title || masterSong?.song_title || "Unknown Title"}
                         </h3>
                         <span className="text-xs text-gray-400">
-                            {masterSong?.artist || "Arijit Singh"}
+                            {masterSong?.artist || masterSong?.song_artist || "Unknown Name"}
                         </span>
                     </div>
-                    <AiOutlineHeart onClick={addToLiked} className="ml-3 cursor-pointer hover:text-green-400"  />
+                    <AiOutlineHeart  onClick={() => addToLiked(masterSong)}  className="ml-3 cursor-pointer hover:text-green-400"  />
                     <CgScreen className="ml-3" />
                 </div>
             </div>

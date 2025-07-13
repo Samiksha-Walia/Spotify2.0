@@ -14,9 +14,9 @@ const Card = ({song, idx ,isAuthenticated, setShowModal,setSelectedSong  }) => {
     if (!song) return null;
     
     const { masterSong, isPlaying } = useSelector((state) => state.mainSong);
-    const {resetEverything,setSongIdx} = useGlobalContext();
+    const {resetEverything,setSongIdx, setCurrentPlaylist } = useGlobalContext();
     const dispatch = useDispatch();
-
+/*
     const handlePlay = (song) => {
         if (!isAuthenticated) {
             setSelectedSong (song);
@@ -35,7 +35,34 @@ const Card = ({song, idx ,isAuthenticated, setShowModal,setSelectedSong  }) => {
     };
     const handlePause = () => {
         dispatch(pauseSong());
+    };*/
+
+    const handlePlay = (song) => {
+        if (!isAuthenticated) {
+            setSelectedSong(song);
+            setShowModal(true);
+            return;
+        }
+
+        console.log("playing");
+        setSongIdx(idx);
+        console.log(idx);
+
+        // Don't manually pause/reset audio here — just reset context state
+        resetEverything();
+
+        // Dispatch the selected song; SongBar will handle playback logic
+        dispatch(playSong(song));
+
+        setCurrentPlaylist([song]);
+        
+
     };
+
+    const handlePause = () => {
+            dispatch(pauseSong());
+        };
+
     return (
         song && (
         <div className="secondary-bg  rounded-lg">

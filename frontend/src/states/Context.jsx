@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
     const [progress, setProgress] = useState(0);
     const [songIdx, setSongIdx] = useState(0);
     const [filteredSongs, setFilteredSongs] = useState([]);
+    const [currentPlaylist, setCurrentPlaylist] = useState([]);
     const dispatch = useDispatch();
     const resetEverything = () => {
         setProgress(0);
@@ -21,7 +22,9 @@ export const AppProvider = ({ children }) => {
 
     const getUser = async () => {
         const token = localStorage.getItem("token");
-        if (token) {
+        if (!token) return;
+
+        try {
             const res = await fetch("http://localhost:5000/api/user/me", {
             method: "GET",
             headers: {
@@ -29,13 +32,20 @@ export const AppProvider = ({ children }) => {
                 token,
             },
             });
+
             const data = await res.json();
+
             if (data.success) {
-            dispatch(userActor(data.user));
+                dispatch(userActor(data.user));
             } else {
-            toast.error(data.message);
+                toast.warn(data.message || "Session expired. Please login again.");
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
             }
-        }
+        }catch (err) {
+                console.error("Error fetching user:", err);
+                toast.error("An unexpected error occurred");
+            }
         };
     return (
         <AppContext.Provider
@@ -52,6 +62,8 @@ export const AppProvider = ({ children }) => {
                 getUser,
                 filteredSongs,
                 setFilteredSongs,
+                currentPlaylist,
+                setCurrentPlaylist,
             }}
         >
             {children}

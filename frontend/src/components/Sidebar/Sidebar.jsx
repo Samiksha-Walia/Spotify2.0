@@ -7,9 +7,70 @@ import Signup from './Signup';
 import "./Sidebar.css"
 import ArijitImage from "../../assets/Arijit.jpeg";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
+
+
+
+
 
 const Sidebar = () => {
     const [playlists, setPlaylists] = useState([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        console.log("Sidebar: raw localStorage user:", storedUser);
+        try {
+            const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+            console.log("Sidebar: parsed user:", parsedUser);
+        } catch (e) {
+            console.log("Failed to parse user:", e);
+        }
+    }, []);
+
+
+    const handleCreatePlaylist = async () => {
+            const title = prompt("Enter playlist name:");
+            
+            if (!title) return;
+
+            const rawUser = localStorage.getItem("user");
+            const user = rawUser ? JSON.parse(rawUser) : null;
+
+
+            console.log("User from localStorage:", user);
+
+            if (!user || !user._id ){
+                alert("User not logged in.");
+                return;
+            }
+
+            try {
+                const res = await fetch("http://localhost:5000/api/playlist/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ title, singers: [], songs: [],userId: user._id, }),
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    localStorage.setItem("user", JSON.stringify(data.user)); // <-- This is critical
+                    localStorage.setItem("token", data.token)
+                    navigate("/");
+                setPlaylists((prev) => [...prev, data.playlist]);
+                } else {
+                alert("Failed to create playlist: " + data.message);
+                }
+            } catch (err) {
+                console.error("Create playlist error:", err);
+                alert("Error creating playlist.");
+            }
+            };
+
     const getPlaylists = async () => {
         const res = await fetch("http://localhost:5000/api/playlist/", {
         method: "GET",
@@ -52,7 +113,9 @@ const Sidebar = () => {
                             Your Library
                         </span>
                     </div>
-                    <button className="hover:bg-black/25 w-10 h-10 rounded-[50%] p-2">
+                    <button onClick={handleCreatePlaylist} 
+                    
+                    className="hover:bg-black/25 w-10 h-10 rounded-[50%] p-2">
                         <FaPlus className="font-bold text-xl"/>
                     </button>
                 </div>
@@ -71,33 +134,27 @@ const Sidebar = () => {
                     </Link>
                 </div>
                 <div className="my-6 px-2">
-                    {playlists.map((p) => {
-                    return (
-                        <div key={p._id} className="flex gap-4 my-2">
-                        <div>
-                            <img
-                            src={ArijitImage}
-                            width={50}
-                            height={50}
-                            alt=""
-                            />
-                        </div>
-                        <div>
-                            <h3 className="text-base font-medium mb-2">{p.title}</h3>
-                            <p className="text-sm text-white/80">
-                            Playlist
-                            <span> . {p.songs.length} Songs</span>
-                            </p>
-                        </div>
-                        </div>
-                    );
-                    })}
+                    {playlists.map((p) => (
+                        <Link to={`/playlist/${p._id}`} key={p._id} className="flex gap-4 my-2">
+                            <div>
+                                <img src={ArijitImage} width={50} height={50} alt="" />
+                            </div>
+                            <div>
+                                <h3 className="text-base font-medium mb-2">{p.title}</h3>
+                                <p className="text-sm text-white/80">
+                                Playlist<span> • {p.songs.length} Songs</span>
+                                </p>
+                            </div>
+                        </Link>
+
+                        ))}
+
                 </div>
              <div className="your_library">
             <div className="bg-[#121212] rounded-md p-4 my-2">
                 <h3 className='font-semibold'>Create your first playlist</h3>
                 <p className='text-sm text-gray-400'>It's easy, we'll help you</p>
-                    <button className="bg-white text-black rounded-full px-4 py-2 mt-2 font-semibold text-sm">
+                    <button onClick={handleCreatePlaylist} className="bg-white text-black rounded-full px-4 py-2 mt-2 font-semibold text-sm">
                         Create Playlist
                     </button>
             </div>

@@ -11,8 +11,9 @@ import ArijitImage from "../../assets/Arijit.jpeg";
 const Search = () => {
   const { filteredSongs } = useGlobalContext();
   return (
-    <Layout>
+    <>
       <Navbar />
+      <Layout>
       <div className="tertiary-bg mx-4 px-4 py-4 home ">
         <div className="flex justify-between mb-4 pt-4 items-center">
           <span className="text-xl font-bold hover:underline cursor-pointer">
@@ -68,6 +69,7 @@ const Search = () => {
       </div>
       <SongBar />
     </Layout>
+    </>
   );
 };
 
