@@ -132,11 +132,11 @@ Your app will be live at `http://localhost:5173`.
 * 📱 Progressive Web App (PWA) support for mobile offline access
 
 
-
-## 🙋‍♀️ Author
+## 👤 Author
 
 **Samiksha Walia**
-💻 [GitHub](https://github.com/Samiksha-Walia) | 🔗 [LinkedIn](https://linkedin.com/in/samiksha-walia)
+[GitHub](https://github.com/Samiksha-Walia) • [LinkedIn](https://linkedin.com/in/samiksha-walia) 
+
 
 
 ## ⭐️ Support This Project
